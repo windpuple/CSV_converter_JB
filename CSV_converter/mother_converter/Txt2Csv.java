@@ -54,7 +54,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 	File[] select_multi_files;
 
 	public Txt2Csv() {
-		super("TXTtoCSV V02");
+		super("TXTtoCSV V03");
 
 		int jb;
 
@@ -109,7 +109,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 		getContentPane().add(lblSubProgramJh);
 
 		setBackground(Color.LIGHT_GRAY);
-		setBounds(350, 250, 275, 202);
+		setBounds(350, 350, 275, 202);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -263,27 +263,26 @@ public class Txt2Csv extends JFrame implements ActionListener {
 			time = new Date[10000];
 
 			String[][] head_data = null;
-			head_data = new String[100][25];
+			head_data = new String[100][35];
 
 			String[][] body_data = null;
-			body_data = new String[10000][25];
+			body_data = new String[10000][35];
 
 			String[][] main_body_data = null;
-			main_body_data = new String[10000][25];
+			main_body_data = new String[10000][35];
 			
-			String[] linesplit = new String[25];
+			String[] linesplit = new String[35];
 		
 			try {
 
 				for (j = 0; j < select_multi_files.length; j++) {
 
 					//dTXTSavefName[j] = "";
-					//swavheader = "";
 					TXTloadbuffer.setLength(0);
 
 					for (i = 0; i < 10000; i++) {
 						
-						for(k = 0 ; k < 25; k++)  body_data[i][k] = null;
+						for(k = 0 ; k < 35; k++)  body_data[i][k] = null;
 						
 					}
 
@@ -303,7 +302,6 @@ public class Txt2Csv extends JFrame implements ActionListener {
 						dTXTSavefName[j] = dTXTfName[j];
 
 						//setTitle(dTXTffile[j] + " - TXT save..");
-
 						//System.out.println("dTXTSavefName[j]:" + j + " " + dTXTSavefName[j]);
 
 						setTitle("Processing...");
@@ -311,8 +309,6 @@ public class Txt2Csv extends JFrame implements ActionListener {
 						FileInputStream ftstream = new FileInputStream(dTXTfName[j]);
 						BufferedReader reader = new BufferedReader(new InputStreamReader(ftstream));
 
-						//String line;
-						//String line_sub_replace;
 						
 						cnt = 0;
 						rows = 0;
@@ -334,11 +330,6 @@ public class Txt2Csv extends JFrame implements ActionListener {
 						data_align = 0;
 						first_data_en = 0;
 
-						//String hadler_id;
-						//String ATE_id;
-						//String date_data;
-						//String Lot_id;
-
 						Lot_id = "Unknown";
 						date_data = "Unknown";
 						hadler_id = "Unknown";
@@ -351,10 +342,6 @@ public class Txt2Csv extends JFrame implements ActionListener {
 						time_count = 0;
 						tail_count = 30;
 						
-						
-						//int[] site_counter = new int[16];
-						//String[] SITE32_array = new String[16];
-						//int[] first_head_information = new int[16];
 
 						for (i = 0; i < SITE32_array.length; i++) {
 
@@ -446,21 +433,25 @@ public class Txt2Csv extends JFrame implements ActionListener {
 							//System.out.println("NEW ERR A-7");
 							
 							//for (i = 0; i < line.length(); i++) {
-								
 							//	if (line.charAt(i) == ' ' || line.charAt(i) == ',')
-
 							//		linesplit_count = linesplit_count + 1;
-
 							//}
 
 							 //System.out.println("NEW ERR A-8");
-							
 							//String[] linesplit = new String[linesplit_count];
 							
 							 //System.out.println("NEW ERR A-9");
 							 
 							linesplit = line.split("\\s|,");
+							
+							//for(i = 0; i < linesplit.length - 12; i++) {
+							
+							//	System.out.println("line_split "+i+" : "+linesplit[i]);
 
+							//}
+							
+							//System.out.println("rows : "+rows);
+							
 							for (y = 0; y < linesplit.length; y++) {
 
 								if (head_flag == 0) {
@@ -509,9 +500,6 @@ public class Txt2Csv extends JFrame implements ActionListener {
 								
 							}
 							
-						
-							 //System.out.println("row, head_end_count, body_end_count, body_loop_count, engage_main_body, line_done : "+rows+" "+head_end_count+" "+body_end_count+" "+body_loop_count+" "+engage_main_body+" "+line_done);
-
 							 //System.out.println("NEW ERR A");
 
 							if (rows != 0 && rows == head_end_count) {
@@ -527,12 +515,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 									&& line_done == 1) {
 
 								//System.out.println("NEW ERR C");
-
-								//TXTloadbuffer.append("SerialNumber" + "," + "Test Pass/Fail Status" + "," + "HBIN" + ","
-								//		+ "SBIN" + "," + "Site" + "," + "TesterID" + "," + "HanderID" + ","
-								//		+ "StartTime" + "," + "EndTime" + "," + "TestTime" + "," + "LotNumber");
-								
-								
+							
 								TXTloadbuffer.append("SerialNumber"); TXTloadbuffer.append( ","); TXTloadbuffer.append( "Test Pass/Fail Status"); TXTloadbuffer.append( ","); TXTloadbuffer.append( "HBIN"); TXTloadbuffer.append( ",");
 								TXTloadbuffer.append( "SBIN");TXTloadbuffer.append( ",");TXTloadbuffer.append( "Site");TXTloadbuffer.append( ",");TXTloadbuffer.append( "TesterID");TXTloadbuffer.append( ",");TXTloadbuffer.append( "HanderID");TXTloadbuffer.append(",");
 								TXTloadbuffer.append( "StartTime");TXTloadbuffer.append( ",");TXTloadbuffer.append( "EndTime");TXTloadbuffer.append( ",");TXTloadbuffer.append( "TestTime");TXTloadbuffer.append( ",");TXTloadbuffer.append( "LotNumber");
@@ -541,6 +524,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 								for (i = 0; i < body_loop_count + 1; i++) {
 
 									if (body_data[i][3] == null || body_data[i][3].isEmpty()
+											|| body_data[i][4] == null || body_data[i][4].isEmpty()
 											|| body_data[i][0].equals("BARCODE") || body_data[i][3].equals("Test")
 											|| body_data[i][3].equals("alarm") || body_data[i][3].equals("GPIB_Echo")
 											|| body_data[i][3].equals("Barcode") || body_data[i][3].equals("[Pin")
@@ -613,6 +597,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 									//System.out.println("NEW ERR D-1");
 
 									if (body_data[i][3] == null || body_data[i][3].isEmpty()
+											|| body_data[i][4] == null || body_data[i][4].isEmpty()
 											|| body_data[i][0].equals("BARCODE") || body_data[i][3].equals("Test")
 											|| body_data[i][3].equals("alarm") || body_data[i][3].equals("GPIB_Echo")
 											|| body_data[i][3].equals("Barcode") || body_data[i][3].equals("[Pin")
@@ -651,6 +636,11 @@ public class Txt2Csv extends JFrame implements ActionListener {
 
 										} else {
 
+											//System.out.println("body_data[i][1]:" + body_data[i][1]);
+											//System.out.println("body_data[i][2]:" + body_data[i][2]);
+											//System.out.println("body_data[i][3]:" + body_data[i][3]);
+											//System.out.println("body_data[i][4]:" + body_data[i][4]);
+											
 											//System.out.println("NEW ERR D-6");
 
 											if (body_data[i - 1][3] == null && !body_data[i][3].isEmpty()) {
@@ -931,7 +921,9 @@ public class Txt2Csv extends JFrame implements ActionListener {
 
 														if (body_data[i][3].equals(body_data[x][3])
 																&& body_data[i][4].equals(body_data[x][4])) {
+															
 															//System.out.println("NEW ERR D-7-3");
+															
 															ignore_item = 1;
 
 															break;
@@ -949,16 +941,22 @@ public class Txt2Csv extends JFrame implements ActionListener {
 														//System.out.println("body_data[i][10]:" + body_data[i][10]);
 
 														if (body_data[i][10] == null) {
+															
 															//System.out.println("NEW ERR D-7-4");
+															
 															TXTloadbuffer.append(",");
 
 														} else if (body_data[i][10].equals("(F)")) {
+															
 															//System.out.println("NEW ERR D-7-5");
+															
 															TXTloadbuffer.append(",");
 															TXTloadbuffer.append(body_data[i][11]);
 															
 														} else {
+															
 															//System.out.println("NEW ERR D-7-6");
+															
 															TXTloadbuffer.append(",");
 															TXTloadbuffer.append(body_data[i][10]);
 														}
@@ -1287,6 +1285,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 								for (i = 0; i < body_loop_count + 1; i++) {
 
 									if (body_data[i][3] == null || body_data[i][3].isEmpty()
+											|| body_data[i][4] == null || body_data[i][4].isEmpty()
 											|| body_data[i][0].equals("BARCODE") || body_data[i][3].equals("Test")
 											|| body_data[i][3].equals("alarm") || body_data[i][3].equals("GPIB_Echo")
 											|| body_data[i][3].equals("Barcode") || body_data[i][3].equals("[Pin")
@@ -1546,8 +1545,6 @@ public class Txt2Csv extends JFrame implements ActionListener {
 
 								//System.out.println("NEW ERR F");
 
-								//TXTloadbuffer.append("Measurement Limit ----->" + "," + "," + "," + "," + "," + "," + "," + ","
-								//		+ "," + "sec" + ",");
 								TXTloadbuffer.append("Measurement Limit ----->");TXTloadbuffer.append( ",");TXTloadbuffer.append( ",");TXTloadbuffer.append( ",");TXTloadbuffer.append( ",");TXTloadbuffer.append( ",");TXTloadbuffer.append( ",");TXTloadbuffer.append( ",");TXTloadbuffer.append( ",");
 								TXTloadbuffer.append( ",");TXTloadbuffer.append( "sec");TXTloadbuffer.append( ",");
 								
@@ -1555,6 +1552,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 								for (i = 0; i < body_loop_count + 1; i++) {
 
 									if (body_data[i][3] == null || body_data[i][3].isEmpty()
+											|| body_data[i][4] == null || body_data[i][4].isEmpty()
 											|| body_data[i][0].equals("BARCODE") || body_data[i][3].equals("Test")
 											|| body_data[i][3].equals("alarm") || body_data[i][3].equals("GPIB_Echo")
 											|| body_data[i][3].equals("Barcode") || body_data[i][3].equals("[Pin")
@@ -2127,10 +2125,6 @@ public class Txt2Csv extends JFrame implements ActionListener {
 								for (i = (body_loop_count - head_end_count) - tail_count; i < (body_loop_count - head_end_count) + 1; i++) {
 
 									//System.out.println("NO HEAD C-1?");
-									//System.out.println("site_counter.length: "+site_counter.length);
-									//System.out.println("bin_isite"+" "+bin_isite+" "+" "+i+" "+body_loop_count);
-									//System.out.println("body_data[i][2]"+" "+body_data[i][2]);
-									//System.out.println("body_data[i][3]"+" "+body_data[i][3]);
 
 									if (body_data[i][3] == null || body_data[i][3].isEmpty()
 											|| body_data[i][3].equals("Test") || body_data[i][3].equals("alarm")
@@ -2225,13 +2219,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 												//System.out.println("NO HEAD D-4?");
 
 												if (d1 == null || d2 == null) {
-
-													//TXTloadbuffer.append(body_data[x][3] + "," + site_PF_counter[i] + ","
-													//		+ site_Hbin_counter[i] + "," + site_Sbin_counter[i] + ","
-													//		+ site_counter[i] + "," + ATE_id + "," + hadler_id + ","
-													//		+ "Unknown" + "," + "Unknown" + "," + "Unknown" + ","
-													//		+ Lot_id);
-													
+												
 													TXTloadbuffer.append(body_data[x][3]); TXTloadbuffer.append( ","); TXTloadbuffer.append( site_PF_counter[i]); TXTloadbuffer.append( ",");
 													TXTloadbuffer.append( site_Hbin_counter[i]); TXTloadbuffer.append( ","); TXTloadbuffer.append( site_Sbin_counter[i]); TXTloadbuffer.append( ",");
 													TXTloadbuffer.append( site_counter[i]); TXTloadbuffer.append( ",");TXTloadbuffer.append( ATE_id); TXTloadbuffer.append( ",");TXTloadbuffer.append( hadler_id); TXTloadbuffer.append( ",");
@@ -2245,12 +2233,6 @@ public class Txt2Csv extends JFrame implements ActionListener {
 
 													diff = d1.getTime() - d2.getTime();
 													sec = diff / 1000;
-
-													//TXTloadbuffer.append(body_data[x][3] + "," + site_PF_counter[i] + ","
-													//		+ site_Hbin_counter[i] + "," + site_Sbin_counter[i] + ","
-													//		+ site_counter[i] + "," + ATE_id + "," + hadler_id + ","
-													//		+ date_data + " " + f.format(d1) + "," + date_data + " "
-													//		+ f.format(d2) + "," + Math.abs(sec) + "," + Lot_id);
 
 													TXTloadbuffer.append(body_data[x][3]); TXTloadbuffer.append( ","); TXTloadbuffer.append( site_PF_counter[i]); TXTloadbuffer.append( ",");
 													TXTloadbuffer.append( site_Hbin_counter[i]); TXTloadbuffer.append( ","); TXTloadbuffer.append( site_Sbin_counter[i]); TXTloadbuffer.append( ",");
@@ -2269,12 +2251,6 @@ public class Txt2Csv extends JFrame implements ActionListener {
 												if (first_head_information[i] == 0) {
 
 													//System.out.println("NO HEAD D-6?");
-
-													//TXTloadbuffer.append("Unknown" + "," + site_PF_counter[i] + ","
-													//		+ site_Hbin_counter[i] + "," + site_Sbin_counter[i] + ","
-													//		+ site_counter[i] + "," + "Unknown" + "," + "Unknown" + ","
-													//		+ "Unknown" + " " + "Unknown" + "," + "Unknown" + " "
-													//		+ "Unknown" + "," + "Unknown" + "," + "Unknown");
 
 													TXTloadbuffer.append("Unknown"); TXTloadbuffer.append( ","); TXTloadbuffer.append( site_PF_counter[i]); TXTloadbuffer.append( ",");
 													TXTloadbuffer.append( site_Hbin_counter[i]); TXTloadbuffer.append( ","); TXTloadbuffer.append( site_Sbin_counter[i]); TXTloadbuffer.append( ",");
@@ -2506,30 +2482,12 @@ public class Txt2Csv extends JFrame implements ActionListener {
 								}
 
 								//System.out.println("NO HEAD H?");
-								//System.out.println("body_loop_count?"+body_loop_count);
 								
 								if(body_loop_count < tail_count) tail_count = 10;
 								
 								for (i = body_loop_count - tail_count; i < body_loop_count + 1; i++) {
 
 									// System.out.println("NO HEAD H-1?");
-									// System.out.println("site_counter.length: "+site_counter.length);
-									// System.out.println("site_counter[bin_isite]"+" "+bin_isite+"
-									// "+site_counter[bin_isite]+" "+i+" "+body_loop_count);
-
-									// if (site_counter[bin_isite] == 999) {
-
-									// if(bin_isite == site_counter.length-1) {
-
-									// do nothing
-
-									// } else {
-
-									// bin_isite = bin_isite + 1;
-
-									// }
-
-									// }
 
 									if (body_data[i][3] == null || body_data[i][3].isEmpty()
 											|| body_data[i][3].equals("Test") || body_data[i][3].equals("alarm")
@@ -2597,18 +2555,18 @@ public class Txt2Csv extends JFrame implements ActionListener {
 
 								for (i = 0; i < site_counter.length; i++) {
 
-							//		System.out.println("NO HEAD I-1?");
+									//System.out.println("NO HEAD I-1?");
 									// System.out.println("site_counter[i] "+i+" "+site_counter[i]);
 									// System.out.println("SITE32_array[i] "+i+" "+SITE32_array[i]);
 
 									if (site_counter[i] == 999) {
 
-								//		System.out.println("NO HEAD I-2?");
+									//System.out.println("NO HEAD I-2?");
 
 									} else {
-								//		System.out.println("NO HEAD I-3?");
+										//System.out.println("NO HEAD I-3?");
 										for (x = 0; x < body_loop_count + 1; x++) {
-								//			System.out.println("NO HEAD I-4?");
+											//System.out.println("NO HEAD I-4?");
 
 											if (body_data[x][3] == null || body_data[x][3].isEmpty()
 													|| body_data[x][3].equals("Test") || body_data[x][3].equals("alarm")
@@ -2616,17 +2574,17 @@ public class Txt2Csv extends JFrame implements ActionListener {
 													|| body_data[x][3].equals("Barcode")
 													|| body_data[x][3].equals("[Pin")
 													|| body_data[x][1].equals("Device#:")) {
-										//		System.out.println("NO HEAD I-5?");
+												//System.out.println("NO HEAD I-5?");
 												// do nothing
 
 											} else if (body_data[x][3].equals("tests/Executed")) {
-									//			System.out.println("NO HEAD I-6?");
+												//System.out.println("NO HEAD I-6?");
 												break;
 
 											} else if (body_data[x][0].equals("BARCODE")
 													&& body_data[x][2].equals(String.valueOf(site_counter[i]))) {
 
-									//			System.out.println("NO HEAD I-7?");
+												//System.out.println("NO HEAD I-7?");
 												// System.out.println("d1:"+f.format(d1));
 												// System.out.println("d2:"+f.format(d2));
 												// System.out.println("time_count:"+(time_count-1));
@@ -2636,16 +2594,10 @@ public class Txt2Csv extends JFrame implements ActionListener {
 												// System.out.println("time[time_count-1].getTime():"+time[time_count-1].getTime());
 
 												if (engage_main_body == 2) {
-									//				System.out.println("NO HEAD I-8?");
+													//System.out.println("NO HEAD I-8?");
 													if (d2 == null || time[0] == null) {
-									//					System.out.println("NO HEAD I-9?");
+														//System.out.println("NO HEAD I-9?");
 														
-														//TXTloadbuffer.append(body_data[x][3] + "," + site_PF_counter[i] + ","
-														//		+ site_Hbin_counter[i] + "," + site_Sbin_counter[i]
-														//		+ "," + site_counter[i] + "," + ATE_id + "," + hadler_id
-														//		+ "," + "Unknown" + "," + "Unknown" + "," + "Unknown"
-														//		+ "," + Lot_id);
-
 														TXTloadbuffer.append(body_data[x][3]); TXTloadbuffer.append( ","); TXTloadbuffer.append( site_PF_counter[i]); TXTloadbuffer.append( ",");
 														TXTloadbuffer.append( site_Hbin_counter[i]); TXTloadbuffer.append( ","); TXTloadbuffer.append( site_Sbin_counter[i]);
 														TXTloadbuffer.append( ","); TXTloadbuffer.append( site_counter[i]); TXTloadbuffer.append( ","); TXTloadbuffer.append( ATE_id); TXTloadbuffer.append( ",");TXTloadbuffer.append( hadler_id);
@@ -2655,16 +2607,10 @@ public class Txt2Csv extends JFrame implements ActionListener {
 														first_head_information[i] = 1;
 
 													} else {
-										//				System.out.println("NO HEAD I-10?");
+														//System.out.println("NO HEAD I-10?");
 														diff = d2.getTime() - time[time_count - 1].getTime();
 														sec = diff / 1000;
 
-														//TXTloadbuffer.append(body_data[x][3] + "," + site_PF_counter[i] + ","
-														//		+ site_Hbin_counter[i] + "," + site_Sbin_counter[i]
-														//		+ "," + site_counter[i] + "," + ATE_id + "," + hadler_id
-														//		+ "," + date_data + " " + f.format(d2) + "," + date_data
-														//		+ " " + f.format(time[time_count - 1]) + ","
-														//		+ Math.abs(sec) + "," + Lot_id);
 
 														TXTloadbuffer.append(body_data[x][3]); TXTloadbuffer.append( ",");TXTloadbuffer.append( site_PF_counter[i]); TXTloadbuffer.append( ",");
 																TXTloadbuffer.append( site_Hbin_counter[i]); TXTloadbuffer.append( ",");TXTloadbuffer.append( site_Sbin_counter[i]);
@@ -2679,14 +2625,8 @@ public class Txt2Csv extends JFrame implements ActionListener {
 													}
 
 												} else {
-										//			System.out.println("NO HEAD I-11?");
+													//System.out.println("NO HEAD I-11?");
 													if (d2 == null || time[0] == null) {
-
-														//TXTloadbuffer.append(body_data[x][3] + "," + site_PF_counter[i] + ","
-														//		+ site_Hbin_counter[i] + "," + site_Sbin_counter[i]
-														//		+ "," + site_counter[i] + "," + ATE_id + "," + hadler_id
-														//		+ "," + "Unknown" + "," + "Unknown" + "," + "Unknown"
-														//		+ "," + Lot_id);
 
 														TXTloadbuffer.append(body_data[x][3]); TXTloadbuffer.append( ",");TXTloadbuffer.append( site_PF_counter[i]); TXTloadbuffer.append( ",");
 																TXTloadbuffer.append( site_Hbin_counter[i]); TXTloadbuffer.append( ",");TXTloadbuffer.append( site_Sbin_counter[i]);
@@ -2698,17 +2638,11 @@ public class Txt2Csv extends JFrame implements ActionListener {
 														first_head_information[i] = 1;
 
 													} else {
-										//				System.out.println("NO HEAD I-12?");
+														//System.out.println("NO HEAD I-12?");
 														diff = time[time_count - 2].getTime()
 																- time[time_count - 1].getTime();
 														sec = diff / 1000;
 
-														//TXTloadbuffer.append(body_data[x][3] + "," + site_PF_counter[i] + ","
-														//		+ site_Hbin_counter[i] + "," + site_Sbin_counter[i]
-														//		+ "," + site_counter[i] + "," + ATE_id + "," + hadler_id
-														//		+ "," + date_data + " " + f.format(time[time_count - 2])
-														//		+ "," + date_data + " " + f.format(time[time_count - 1])
-														//		+ "," + Math.abs(sec) + "," + Lot_id);
 
 														TXTloadbuffer.append(body_data[x][3]); TXTloadbuffer.append( ",");TXTloadbuffer.append( site_PF_counter[i]); TXTloadbuffer.append( ",");
 														TXTloadbuffer.append( site_Hbin_counter[i]); TXTloadbuffer.append( ",");TXTloadbuffer.append( site_Sbin_counter[i]);
@@ -2724,26 +2658,20 @@ public class Txt2Csv extends JFrame implements ActionListener {
 												}
 
 											} else if (body_data[x][2].equals(String.valueOf(site_counter[i]))) {
-									//			System.out.println("NO HEAD I-13?");
+												//System.out.println("NO HEAD I-13?");
 
 												if (first_head_information[i] == 0) {
 
-									//				System.out.println("NO HEAD I-14?");
+													//System.out.println("NO HEAD I-14?");
 
-									//				System.out.println("site_PF_counter[i]:" + site_PF_counter[i]);
-									//				System.out.println("site_Hbin_counter[i]:" + site_Hbin_counter[i]);
-									//				System.out.println("site_Sbin_counter[i]:" + site_Sbin_counter[i]);
-									//				System.out.println("site_counter[i]:" + site_counter[i]);
-									//				System.out.println("body_data[x][0]:" + body_data[x][0]);
-									//				System.out.println("body_data[x][1]:" + body_data[x][1]);
-									//				System.out.println("body_data[x][2]:" + body_data[x][2]);
-										//			System.out.println("body_data[x][3]:" + body_data[x][3]);
-
-													//TXTloadbuffer.append("Unknown" + "," + site_PF_counter[i] + ","
-													//		+ site_Hbin_counter[i] + "," + site_Sbin_counter[i] + ","
-													//		+ site_counter[i] + "," + "Unknown" + "," + "Unknown" + ","
-													//		+ "Unknown" + " " + "Unknown" + "," + "Unknown" + " "
-													//		+ "Unknown" + "," + "Unknown" + "," + "Unknown");
+													//System.out.println("site_PF_counter[i]:" + site_PF_counter[i]);
+													//System.out.println("site_Hbin_counter[i]:" + site_Hbin_counter[i]);
+													//System.out.println("site_Sbin_counter[i]:" + site_Sbin_counter[i]);
+													//System.out.println("site_counter[i]:" + site_counter[i]);
+													//System.out.println("body_data[x][0]:" + body_data[x][0]);
+													//System.out.println("body_data[x][1]:" + body_data[x][1]);
+													//System.out.println("body_data[x][2]:" + body_data[x][2]);
+													//System.out.println("body_data[x][3]:" + body_data[x][3]);
 
 													TXTloadbuffer.append("Unknown");TXTloadbuffer.append( ",");TXTloadbuffer.append( site_PF_counter[i]); TXTloadbuffer.append( ",");
 													TXTloadbuffer.append( site_Hbin_counter[i]); TXTloadbuffer.append( ",");TXTloadbuffer.append( site_Sbin_counter[i]); TXTloadbuffer.append( ",");
@@ -2755,9 +2683,9 @@ public class Txt2Csv extends JFrame implements ActionListener {
 												}
 
 												if (body_data[x][4].equals("-1")) {
-									//				System.out.println("NO HEAD I-15?");
+													//System.out.println("NO HEAD I-15?");
 													if (body_data[x][5].equals("N/A")) {
-									//					System.out.println("NO HEAD I-16?");
+														//System.out.println("NO HEAD I-16?");
 														TXTloadbuffer.append(",");
 														TXTloadbuffer.append(body_data[x][6]);
 														
@@ -2777,24 +2705,24 @@ public class Txt2Csv extends JFrame implements ActionListener {
 															|| body_data[x][6].equals("mOhm")
 															|| body_data[x][6].equals("S")
 															|| body_data[x][6].equals("mS")) {
-										//				System.out.println("NO HEAD I-17?");
+														//System.out.println("NO HEAD I-17?");
 														TXTloadbuffer.append(",");
 														TXTloadbuffer.append(body_data[x][7]);
 														
 													} else {
-										//				System.out.println("NO HEAD I-18?");
+														//System.out.println("NO HEAD I-18?");
 														TXTloadbuffer.append(",");
 														TXTloadbuffer.append(body_data[x][6]);
 													}
 
 												} else if (body_data[x][6].equals("N/A")) {
-										//			System.out.println("NO HEAD I-19?");
+													//System.out.println("NO HEAD I-19?");
 													TXTloadbuffer.append(",");
 													TXTloadbuffer.append(body_data[x][7]);
 													
 												} else if (body_data[x][3].equals("D1")
 														|| body_data[x][3].equals("D2")) {
-										//			System.out.println("NO HEAD I-20?");
+													//System.out.println("NO HEAD I-20?");
 													TXTloadbuffer.append(",");
 													TXTloadbuffer.append(body_data[x][9]);
 													
@@ -2815,9 +2743,6 @@ public class Txt2Csv extends JFrame implements ActionListener {
 								}
 
 								//System.out.println("NO HEAD J?");
-
-								// Arrays.fill(body_data, "");
-								// body_data = new String[10752][100];
 
 								
 								for (l = 0; l < body_loop_count + 1; l++) {
