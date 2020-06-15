@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.text.ParseException;
 import java.awt.Font;
+import javax.swing.JRadioButton;
 
 
 public class Txt2Csv extends JFrame implements ActionListener {
@@ -39,7 +40,8 @@ public class Txt2Csv extends JFrame implements ActionListener {
 	JButton btn = new JButton("Convert");
 	JButton btncancel = new JButton("Close");
 	JButton TXTload = new JButton("txt Load");
-
+	JRadioButton rdbtnNewRadioButton = new JRadioButton("Test time enable");
+	
 	JLabel noticeTXT = new JLabel("");
 	JLabel fileEmpty = new JLabel("");
 
@@ -53,8 +55,10 @@ public class Txt2Csv extends JFrame implements ActionListener {
 
 	File[] select_multi_files;
 
+	int rows;
+	
 	public Txt2Csv() {
-		super("TXTtoCSV V03");
+		super("TXTtoCSV V04");
 
 		int jb;
 
@@ -70,7 +74,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 		TXTloadbuffer.setLength(0);
 		btn.setFont(new Font("Arial", Font.PLAIN, 12));
 
-		btn.setBounds(23, 94, 98, 21);
+		btn.setBounds(26, 112, 98, 21);
 		btn.addActionListener(this);
 		getContentPane().setLayout(null);
 		getContentPane().add(btn);
@@ -81,12 +85,12 @@ public class Txt2Csv extends JFrame implements ActionListener {
 		getContentPane().add(TXTfile);
 		btncancel.setFont(new Font("Arial", Font.PLAIN, 12));
 
-		btncancel.setBounds(133, 93, 97, 23);
+		btncancel.setBounds(136, 111, 97, 23);
 		getContentPane().add(btncancel);
 		btncancel.addActionListener(this);
 
 		noticeTXT.setForeground(Color.BLUE);
-		noticeTXT.setBounds(26, 53, 204, 15);
+		noticeTXT.setBounds(29, 71, 204, 15);
 		getContentPane().add(noticeTXT);
 		TXTload.setFont(new Font("Arial", Font.PLAIN, 12));
 
@@ -95,21 +99,25 @@ public class Txt2Csv extends JFrame implements ActionListener {
 		TXTload.addActionListener(this);
 
 		fileEmpty.setForeground(Color.RED);
-		fileEmpty.setBounds(23, 75, 207, 15);
+		fileEmpty.setBounds(26, 93, 207, 15);
 		getContentPane().add(fileEmpty);
 
 		JLabel lblMainProgramJb = new JLabel("Main program: JB JEON");
 		lblMainProgramJb.setFont(new Font("Arial", Font.PLAIN, 10));
-		lblMainProgramJb.setBounds(102, 126, 123, 15);
+		lblMainProgramJb.setBounds(105, 144, 123, 15);
 		getContentPane().add(lblMainProgramJb);
 
 		JLabel lblSubProgramJh = new JLabel("Sub program: JH KANG, JH CHOI");
 		lblSubProgramJh.setFont(new Font("Arial", Font.PLAIN, 10));
-		lblSubProgramJh.setBounds(64, 141, 158, 15);
+		lblSubProgramJh.setBounds(67, 159, 158, 15);
 		getContentPane().add(lblSubProgramJh);
+		
 
+		rdbtnNewRadioButton.setBounds(65, 48, 121, 23);
+		getContentPane().add(rdbtnNewRadioButton);
+		
 		setBackground(Color.LIGHT_GRAY);
-		setBounds(350, 350, 275, 202);
+		setBounds(350, 350, 275, 223);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -213,7 +221,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 			int l;
 			int k;
 			int cnt;
-			int rows;
+
 
 			int head_flag;
 			int loopcount;
@@ -232,6 +240,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 			int data_align;
 			int first_data_en;
 			int tail_count;
+			int date_and_time_flag;
 
 			String hadler_id;
 			String ATE_id;
@@ -329,7 +338,8 @@ public class Txt2Csv extends JFrame implements ActionListener {
 						block_end = 0;
 						data_align = 0;
 						first_data_en = 0;
-
+						date_and_time_flag = 0;
+						
 						Lot_id = "Unknown";
 						date_data = "Unknown";
 						hadler_id = "Unknown";
@@ -363,6 +373,8 @@ public class Txt2Csv extends JFrame implements ActionListener {
 		
 							//System.out.println("NEW ERR A-4");
 							
+
+							
 							if (line.contains("Device#")) {
 								
 								head_flag = 1;
@@ -375,44 +387,83 @@ public class Txt2Csv extends JFrame implements ActionListener {
 
 							}
 
-							 //System.out.println("NEW ERR A-5");
-							
-							//if (line.contains("Date:") && line.contains("Time:")
-							//		|| line.contains(
-							//				"=========================================================================")) {
-
-							
-							if (line.contains("=========================================================================")) {
+							if(rdbtnNewRadioButton.isSelected()) {
 								
+								//System.out.println("NEW ERR A-5-1");
 								
-								 //System.out.println("previous row : "+rows);
-								 //System.out.println("previous head_end_count : "+head_end_count);
-								 //System.out.println("previous exbody_end_count : "+ex_body_end_count);
-								 //System.out.println("previous body_end_count : "+body_end_count);
-								 //System.out.println("previous body_loop_count : "+body_loop_count);
-								 //System.out.println("previous engage_main_body : "+engage_main_body);
-								 //System.out.println("previous line_done : "+line_done);
-								 							
-								 writer.append(TXTloadbuffer.toString());;
-								 writer.flush();
-								 TXTloadbuffer.setLength(0);
-								 
-								line_done = 1;
-								engage_main_body = engage_main_body + 1;
-								data_align = 1;
-								ex_body_end_count = body_end_count;
-								body_loop_count = rows - ex_body_end_count;
-								body_end_count = rows;
+								if (line.contains("Date:") && line.contains("Time:")) {
+															
+									
+									 //System.out.println("previous row : "+rows);
+									 //System.out.println("previous head_end_count : "+head_end_count);
+									 //System.out.println("previous exbody_end_count : "+ex_body_end_count);
+									 //System.out.println("previous body_end_count : "+body_end_count);
+									 //System.out.println("previous body_loop_count : "+body_loop_count);
+									 //System.out.println("previous engage_main_body : "+engage_main_body);
+									 //System.out.println("previous line_done : "+line_done);
+									 							
+									 writer.append(TXTloadbuffer.toString());;
+									 writer.flush();
+									 TXTloadbuffer.setLength(0);
+									
+									date_and_time_flag = 1; 
+									 
+									line_done = 1;
+									engage_main_body = engage_main_body + 1;
+									data_align = 1;
+									ex_body_end_count = body_end_count;
+									body_loop_count = rows - ex_body_end_count;
+									body_end_count = rows;
 
-								 //System.out.println("post row : "+rows);
-								 //System.out.println("post head_end_count : "+head_end_count);
-								 //System.out.println("post exbody_end_count : "+ex_body_end_count);
-								 //System.out.println("post body_end_count : "+body_end_count);
-								 //System.out.println("post body_loop_count : "+body_loop_count);
-								 //System.out.println("post engage_main_body : "+engage_main_body);
-								 //System.out.println("post line_done : "+line_done);
+									 //System.out.println("post row : "+rows);
+									 //System.out.println("post head_end_count : "+head_end_count);
+									 //System.out.println("post exbody_end_count : "+ex_body_end_count);
+									 //System.out.println("post body_end_count : "+body_end_count);
+									 //System.out.println("post body_loop_count : "+body_loop_count);
+									 //System.out.println("post engage_main_body : "+engage_main_body);
+									 //System.out.println("post line_done : "+line_done);
+									
+								}
+								
+							} else {
+								
+								//System.out.println("NEW ERR A-5-2");
+							
+								if (line.contains("=========================================================================")) {
+
+									 //System.out.println("previous row : "+rows);
+									 //System.out.println("previous head_end_count : "+head_end_count);
+									 //System.out.println("previous exbody_end_count : "+ex_body_end_count);
+									 //System.out.println("previous body_end_count : "+body_end_count);
+									 //System.out.println("previous body_loop_count : "+body_loop_count);
+									 //System.out.println("previous engage_main_body : "+engage_main_body);
+									 //System.out.println("previous line_done : "+line_done);
+									 							
+									 writer.append(TXTloadbuffer.toString());;
+									 writer.flush();
+									 TXTloadbuffer.setLength(0);
+									 
+									 
+									line_done = 1;
+									engage_main_body = engage_main_body + 1;
+									data_align = 1;
+									ex_body_end_count = body_end_count;
+									body_loop_count = rows - ex_body_end_count;
+									body_end_count = rows;
+
+									 //System.out.println("post row : "+rows);
+									 //System.out.println("post head_end_count : "+head_end_count);
+									 //System.out.println("post exbody_end_count : "+ex_body_end_count);
+									 //System.out.println("post body_end_count : "+body_end_count);
+									 //System.out.println("post body_loop_count : "+body_loop_count);
+									 //System.out.println("post engage_main_body : "+engage_main_body);
+									 //System.out.println("post line_done : "+line_done);
+									
+								}
 								
 							}
+							
+
 
 							 //System.out.println("NEW ERR A-6");
 							
@@ -516,8 +567,8 @@ public class Txt2Csv extends JFrame implements ActionListener {
 
 								//System.out.println("NEW ERR C");
 							
-								TXTloadbuffer.append("SerialNumber"); TXTloadbuffer.append( ","); TXTloadbuffer.append( "Test Pass/Fail Status"); TXTloadbuffer.append( ","); TXTloadbuffer.append( "HBIN"); TXTloadbuffer.append( ",");
-								TXTloadbuffer.append( "SBIN");TXTloadbuffer.append( ",");TXTloadbuffer.append( "Site");TXTloadbuffer.append( ",");TXTloadbuffer.append( "TesterID");TXTloadbuffer.append( ",");TXTloadbuffer.append( "HanderID");TXTloadbuffer.append(",");
+								TXTloadbuffer.append("SerialNumber"); TXTloadbuffer.append( ","); TXTloadbuffer.append( "Test Pass/Fail Status"); TXTloadbuffer.append( ","); TXTloadbuffer.append( "SBIN"); TXTloadbuffer.append( ",");
+								TXTloadbuffer.append( "HBIN");TXTloadbuffer.append( ",");TXTloadbuffer.append( "Site");TXTloadbuffer.append( ",");TXTloadbuffer.append( "TesterID");TXTloadbuffer.append( ",");TXTloadbuffer.append( "HanderID");TXTloadbuffer.append(",");
 								TXTloadbuffer.append( "StartTime");TXTloadbuffer.append( ",");TXTloadbuffer.append( "EndTime");TXTloadbuffer.append( ",");TXTloadbuffer.append( "TestTime");TXTloadbuffer.append( ",");TXTloadbuffer.append( "LotNumber");
 								
 								
@@ -2584,14 +2635,14 @@ public class Txt2Csv extends JFrame implements ActionListener {
 											} else if (body_data[x][0].equals("BARCODE")
 													&& body_data[x][2].equals(String.valueOf(site_counter[i]))) {
 
-												//System.out.println("NO HEAD I-7?");
-												// System.out.println("d1:"+f.format(d1));
-												// System.out.println("d2:"+f.format(d2));
-												// System.out.println("time_count:"+(time_count-1));
-												// System.out.println("time[time_count-1]:"+f.format(time[time_count-1]));
-												// System.out.println("d1.getTime():"+d1.getTime());
-												// System.out.println("d2.getTime():"+d2.getTime());
-												// System.out.println("time[time_count-1].getTime():"+time[time_count-1].getTime());
+												 //System.out.println("NO HEAD I-7?");
+												 //System.out.println("d1:"+f.format(d1));
+												 //System.out.println("d2:"+f.format(d2));
+												 //System.out.println("time_count:"+(time_count-1));
+												 //System.out.println("time[time_count-1]:"+f.format(time[time_count-1]));
+												 //System.out.println("d1.getTime():"+d1.getTime());
+												 //System.out.println("d2.getTime():"+d2.getTime());
+												 //System.out.println("time[time_count-1].getTime():"+time[time_count-1].getTime());
 
 												if (engage_main_body == 2) {
 													//System.out.println("NO HEAD I-8?");
@@ -2785,6 +2836,7 @@ public class Txt2Csv extends JFrame implements ActionListener {
 								data_align = 0;
 								bin_isite = 0;
 								tail_count = 30;
+								
 
 							}
 
@@ -2792,8 +2844,20 @@ public class Txt2Csv extends JFrame implements ActionListener {
 							rows = rows + 1;
 							//TXTloadbuffer.flush();
 
+							
 						}
 
+	
+						if(rdbtnNewRadioButton.isSelected()) {
+							
+							//System.out.println("rows && date_and_time_flag:"+rows+":"+date_and_time_flag);
+							if(date_and_time_flag == 0) {
+								//System.out.println("Run this error?");
+								JOptionPane.showMessageDialog(this, "Data log not include date and time");
+							
+							}
+						}
+						
 						//System.out.println("NO HEAD L?");
 
 						setTitle(dTXTffile[j] + ".csv saved..");
@@ -2817,8 +2881,9 @@ public class Txt2Csv extends JFrame implements ActionListener {
 
 			} catch (Exception e2) {
 
-				JOptionPane.showMessageDialog(this, "Converting Error");
-
+				JOptionPane.showMessageDialog(this, "Converting Error : Please See row "+(rows+1));
+				
+					
 			}
 
 		} else if (e.getSource() == btncancel) {
